@@ -7,6 +7,10 @@ function Game() {
     this.birdTop = 220;
     this.startColor = 'white';
     this.skySpeed = 2;
+    //初始化方法
+    this.init = function () {
+        this.timer();
+    }
     //定时器
     this.timer = function () {
         var count = 0;
