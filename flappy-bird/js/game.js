@@ -7,6 +7,7 @@ function Game() {
     this.oMark = document.getElementsByClassName('mark')[0];
     this.oFinScore = document.getElementsByClassName('finnal-score')[0];
     this.reset = document.getElementsByClassName('reset')[0];
+    this.ul = document.getElementsByClassName('rank-list')[0];
     this.skyPosition = 0;
     this.birdTop = 235;
     this.startColor = 'white';
@@ -17,13 +18,14 @@ function Game() {
     this.maxTop = 570;
     this.pipeArr = [];
     this.score = 0;
-  /*  //初始化方法
+    this.rankNum = 8;
+    //初始化方法
     this.init = function () {
         game.score = 0;
         game.birdTop = 235;
+        game.birdStepY = 1;
         game.oMark.style.display = 'none';
-        game.oScore.style.display = 'none';
-        timer = game.timer();
+        game.oScore.innerText = '0';
         for (var key in game.pipeArr) {
             var up = game.pipeArr[key].up;
             var down = game.pipeArr[key].down;
@@ -33,9 +35,11 @@ function Game() {
         game.pipeArr = [];
         for (let i = 0; i < 7; i++) {
             game.creataPipe(300 * (i + 1));
-        }    }
+        }
+        timer = game.timer();
+    }
     //重新开始游戏
-    addEvent(this.reset, 'click', this.init, false);*/
+    addEvent(this.reset, 'click', this.init, false);
     //点击开始游戏
     this.startClick = function () {
         game.skyStep = 5;
@@ -54,7 +58,7 @@ function Game() {
     //定时器
     this.timer = function () {
         var count = 0;
-        return this.timer = setInterval(() => {
+        return setInterval(() => {
             this.skyMove();
             if (this.gameFlag) {
                 this.birdDrop();
@@ -77,7 +81,7 @@ function Game() {
     //点击天空小鸟蹦一下
     this.skyClick = function (e) {
         e = e || window.event;
-        if (!e.target.classList.contains('start')) {
+        if (!e.target.classList.contains('start') && !e.target.classList.contains('reset')) {
             game.birdStepY = -10;
         }
     }
@@ -117,7 +121,7 @@ function Game() {
     }
     //创建管道
     this.creataPipe = function (x) {
-        var upHeight = Math.floor(Math.random() * 175 + 50),
+        var upHeight = Math.floor(Math.random() * 300 + 50),
             downHeight = 450 - upHeight;
         var upPipe = creataEle('div', ['pipe', 'pipe-up'], {
                 height: upHeight + 'px',
@@ -175,6 +179,61 @@ function Game() {
         clearInterval(timer);
         this.oMark.style.display = 'block';
         this.oFinScore.innerText = this.score + '';
+        var obj = {
+            sco: game.score,
+            time: new Date().toLocaleString()
+        }
+        this.rank(obj);
+    }
+    //排行榜
+    this.rank = function (obj) {
+        this.ul.innerHTML = '';
+        this.reRank(obj, 1);
+        for (let i = 1; i <= this.rankNum; i++) {
+            var nameArr = ['rank'];
+            switch (i) {
+                case 1:
+                    nameArr.push('first');
+                    break;
+                case 2:
+                    nameArr.push('second');
+                    break;
+                case 3:
+                    nameArr.push('third');
+            }
+            var loc = JSON.parse(localStorage.getItem(i + ''));
+            if (loc) {
+                var li = creataEle('li', ['rank-item'], {});
+                var rank = creataEle('span', nameArr, {});
+                var rankScore = creataEle('span', ['rank-score'], {});
+                var rankTime = creataEle('span', ['rank-time'], {});
+                rank.innerText = i + '';
+                rankScore.innerText = loc.sco;
+                rankTime.innerText = loc.time;
+                li.appendChild(rank);
+                li.appendChild(rankScore);
+                li.appendChild(rankTime);
+                this.ul.appendChild(li);
+            } else {
+                return;
+            }
+        }
+    }
+    //排行榜递归
+    this.reRank = function (obj, num) {
+        for (let i = num; i <= this.rankNum; i++) {
+            var loc = JSON.parse(localStorage.getItem(i + ''));
+            if (loc) {
+                if (obj.sco > loc.sco) {
+                    localStorage.setItem(i + '', JSON.stringify(obj));
+                    this.reRank(loc, i);
+                    return;
+                }
+            } else {
+                localStorage.setItem(i + '', JSON.stringify(obj));
+                return;
+            }
+        }
     }
 }
 
