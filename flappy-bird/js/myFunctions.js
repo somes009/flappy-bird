@@ -157,3 +157,14 @@ function loadScript(url, callback) {
     document.head.appendChild(script);
 }
 
+//创建新元素
+function creataEle(eleName, classArr, cssObj) {
+    var ele = document.createElement(eleName);
+    for (let i = 0, len = classArr.length; i < len; i++) {
+        ele.classList.add(classArr[i]);
+    }
+    for (var key in cssObj) {
+        ele.style[key] = cssObj[key];
+    }
+    return ele;
+}
