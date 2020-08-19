@@ -19,6 +19,7 @@ function Game() {
     this.pipeArr = [];
     this.score = 0;
     this.rankNum = 8;
+    this.scoreArr = [];
     //初始化方法
     this.init = function () {
         game.score = 0;
@@ -37,6 +38,7 @@ function Game() {
             game.creataPipe(300 * (i + 1));
         }
         timer = game.timer();
+        localStorage.setItem('score',JSON.stringify(game.scoreArr));
     }
     //重新开始游戏
     addEvent(this.reset, 'click', this.init, false);
@@ -51,7 +53,6 @@ function Game() {
         for (let i = 0; i < 7; i++) {
             game.creataPipe(300 * (i + 1));
         }
-
     }
     addEvent(this.oStart, 'click', this.startClick, false);
 
@@ -183,54 +184,47 @@ function Game() {
             sco: game.score,
             time: new Date().toLocaleString()
         }
-        this.rank(obj);
+        this.scoreArr = JSON.parse(localStorage.getItem('score')) ? JSON.parse(localStorage.getItem('score')) : [];
+        this.scoreArr.push(obj);
+        this.getRank();
     }
-    //排行榜
-    this.rank = function (obj) {
+    //获得排行榜
+    this.getRank = function () {
+        this.scoreArr.sort(function (a, b) {
+            return b.sco - a.sco;
+        })
+        var scoreLen = this.scoreArr.length;
+        this.scoreArr.length = scoreLen > this.rankNum ? this.rankNum : scoreLen;
         this.ul.innerHTML = '';
-        this.reRank(obj, 1);
-        for (let i = 1; i <= this.rankNum; i++) {
-            var nameArr = ['rank'];
+        this.setRank();
+    }
+    //设置排行榜
+    this.setRank = function () {
+        for (let i = 0, len = this.scoreArr.length; i < len; i++) {
+            var claName = ['rank'];
             switch (i) {
+                case 0:
+                    claName.push('first');
+                    break;
                 case 1:
-                    nameArr.push('first');
+                    claName.push('second');
                     break;
                 case 2:
-                    nameArr.push('second');
-                    break;
-                case 3:
-                    nameArr.push('third');
+                    claName.push('third');
             }
-            var loc = JSON.parse(localStorage.getItem(i + ''));
-            if (loc) {
-                var li = creataEle('li', ['rank-item'], {});
-                var rank = creataEle('span', nameArr, {});
-                var rankScore = creataEle('span', ['rank-score'], {});
+            if (this.scoreArr[i]) {
+                var rankItem = creataEle('li', ['rank-item'], {});
+                var rank = creataEle('span', claName, {});
+                var rankSco = creataEle('span', ['rank-score'], {});
                 var rankTime = creataEle('span', ['rank-time'], {});
-                rank.innerText = i + '';
-                rankScore.innerText = loc.sco;
-                rankTime.innerText = loc.time;
-                li.appendChild(rank);
-                li.appendChild(rankScore);
-                li.appendChild(rankTime);
-                this.ul.appendChild(li);
-            } else {
-                return;
-            }
-        }
-    }
-    //排行榜递归
-    this.reRank = function (obj, num) {
-        for (let i = num; i <= this.rankNum; i++) {
-            var loc = JSON.parse(localStorage.getItem(i + ''));
-            if (loc) {
-                if (obj.sco > loc.sco) {
-                    localStorage.setItem(i + '', JSON.stringify(obj));
-                    this.reRank(loc, i);
-                    return;
-                }
-            } else {
-                localStorage.setItem(i + '', JSON.stringify(obj));
+                rank.innerText = i + 1 + '';
+                rankSco.innerText = this.scoreArr[i].sco;
+                rankTime.innerText = this.scoreArr[i].time;
+                rankItem.appendChild(rank);
+                rankItem.appendChild(rankSco);
+                rankItem.appendChild(rankTime);
+                this.ul.appendChild(rankItem);
+            }else {
                 return;
             }
         }
