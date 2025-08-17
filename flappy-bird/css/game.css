@@ -1,134 +1,135 @@
 #game {
-    height: 600px;
-    background-image: url("../images/sky.png");
-    position: relative;
-    transition: all .03s;
-    overflow: hidden;
+  height: 600px;
+  background-image: url("../images/sky.png");
+  position: relative;
+  transition: all 0.03s;
+  overflow: hidden;
 }
 
 .bird {
-    width: 30px;
-    height: 30px;
-    background-image: url("../images/birds.png");
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 235px;
-    transition: top .3s;
+  width: 30px;
+  height: 30px;
+  background-image: url("../images/birds.png");
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 235px;
+  transition: top 0.3s;
 }
 
 .start {
-    width: 200px;
-    height: 60px;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 295px;
-    text-align: center;
-    line-height: 60px;
-    font-weight: bolder;
-    cursor: pointer;
-    transition: all .3s;
+  width: 200px;
+  height: 60px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 295px;
+  text-align: center;
+  line-height: 60px;
+  font-weight: bolder;
+  cursor: pointer;
+  transition: all 0.3s;
 }
 
 .start.white {
-    font-size: 24px;
-    color: white;
+  font-size: 24px;
+  color: white;
 }
 
 .start.blue {
-    font-size: 36px;
-    color: #09f;
+  font-size: 36px;
+  color: #09f;
 }
 
 .score {
-    display: none;
-    font-size: 20px;
-    color: white;
-    font-weight: bolder;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1;
+  display: none;
+  font-size: 20px;
+  color: white;
+  font-weight: bolder;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
 }
 
 .mark {
-    display: none;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, .7);
-    z-index: 2;
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 2;
 }
-.end{
-    position: absolute;
-    top: 70px;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-    font-size: 12px;
+.end {
+  position: absolute;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  font-size: 12px;
 }
-.over{
-    font-size: 36px;
-    font-weight: bolder;
-    color: red;
+.over {
+  font-size: 36px;
+  font-weight: bolder;
+  color: red;
 }
-.result,.finnal-score{
-    margin-top: 20px;
-    color: yellow;
-    font-weight: bold;
-    font-size: 20px;
+.result,
+.finnal-score {
+  margin-top: 20px;
+  color: yellow;
+  font-weight: bold;
+  font-size: 20px;
 }
-.rank-list{
-    margin-top: 20px;
-    color: #09f;
+.rank-list {
+  margin-top: 20px;
+  color: #09f;
 }
-.rank-item{
-    margin-bottom: 10px;
+.rank-item {
+  margin-bottom: 10px;
 }
-.rank{
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    color: white;
-    line-height: 14px;
-    margin-right: 10px;
-    background-color: #8eb9f5;
+.rank {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  color: white;
+  line-height: 14px;
+  margin-right: 10px;
+  background-color: #8eb9f5;
 }
-.rank.first{
-    background-color: #f54545;
+.rank.first {
+  background-color: #f54545;
 }
-.rank.second{
-    background-color: #ff8547;
+.rank.second {
+  background-color: #ff8547;
 }
-.rank.third{
-    background-color: #ffac38;
+.rank.third {
+  background-color: #ffac38;
 }
-.rank-score{
-    display: inline-block;
-    width: 30px;
-    height: 30px;
-    margin-right: 10px;
+.rank-score {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
 }
-.reset{
-    color: #09f;
-    font-size: 18px;
-    font-weight: bolder;
-    cursor: pointer;
+.reset {
+  color: #09f;
+  font-size: 18px;
+  font-weight: bolder;
+  cursor: pointer;
 }
 .pipe {
-    width: 52px;
-    position: absolute;
+  width: 52px;
+  position: absolute;
 }
-.pipe.pipe-up{
-    background-image: url("../images/pipe2.png");
-    background-position-y: bottom;
-    top: 0;
+.pipe.pipe-up {
+  background-image: url("../images/pipe2.png");
+  background-position-y: bottom;
+  top: 0;
 }
-.pipe.pipe-down{
-    background-image: url("../images/pipe1.png");
-    background-position-y: top;
-    bottom: 0;
+.pipe.pipe-down {
+  background-image: url("../images/pipe1.png");
+  background-position-y: top;
+  bottom: 0;
 }
